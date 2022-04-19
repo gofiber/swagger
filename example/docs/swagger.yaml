@@ -1,0 +1,55 @@
+basePath: /
+definitions:
+  main.Account:
+    properties:
+      id:
+        type: string
+    type: object
+  main.HTTPError:
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: fiber@swagger.io
+    name: API Support
+  description: This is a sample swagger for Fiber
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Fiber Example API
+  version: "1.0"
+paths:
+  /accounts/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      operationId: get-string-by-int
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Account'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.HTTPError'
+      summary: Show a account
+swagger: "2.0"
