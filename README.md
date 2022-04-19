@@ -1,4 +1,10 @@
-# swagger
+# Swagger
+
+![Release](https://img.shields.io/github/release/gofiber/swagger.svg)
+[![Discord](https://img.shields.io/badge/discord-join%20channel-7289DA)](https://gofiber.io/discord)
+![Test](https://github.com/gofiber/swagger/workflows/Test/badge.svg)
+![Security](https://github.com/gofiber/swagger/workflows/Security/badge.svg)
+![Linter](https://github.com/gofiber/swagger/workflows/Linter/badge.svg)
 
 fiber middleware to automatically generate RESTful API documentation with Swagger
 
