@@ -76,5 +76,3 @@ func main() {
 }
 ```
 5. Run it, and browser to http://localhost:8080/swagger, you can see Swagger 2.0 Api documents.
-
-<p align="center"><img src="example/docs/swagger-ui.png"></p>
