@@ -11,17 +11,16 @@ go get -u github.com/swaggo/swag/cmd/swag
 ```
 3. Run the [Swag](https://github.com/swaggo/swag) in your Go project root folder which contains `main.go` file, [Swag](https://github.com/swaggo/swag) will parse comments and generate required files(`docs` folder and `docs/doc.go`).
 ```sh
-$ swag init
+swag init
 ```
 4. Download [swagger](https://github.com/gofiber/swagger) by using:
 ```sh
-$ go get -u github.com/gofiber/swagger
+go get -u github.com/gofiber/swagger
 ```
 And import following in your code:
 
 ```go
 import "github.com/gofiber/swagger" // swagger handler
-
 ```
 
 ### Canonical example:
