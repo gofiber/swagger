@@ -171,6 +171,10 @@ type Config struct {
 	// In case of OpenAPI 3.0 Bearer scheme, apiKeyValue must contain just the token itself without the Bearer prefix.
 	// default: ""
 	PreauthorizeApiKey template.JS `json:"-"`
+
+	// Applies custom CSS styles.
+	// default: ""
+	CustomStyle template.CSS `json:"-"`
 }
 
 type FilterConfig struct {
