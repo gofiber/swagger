@@ -10,7 +10,7 @@ fiber middleware to automatically generate RESTful API documentation with Swagge
 
 ## Usage
 
-1. Add comments to your API source code, [See Declarative Comments Format](https://swaggo.github.io/swaggo.io/declarative_comments_format/).
+1. Add comments to your API source code, [See Declarative Comments Format](https://github.com/swaggo/swag#declarative-comments-format).
 2. Download [Swag](https://github.com/swaggo/swag) for Go by using:
 ```sh
 go get -u github.com/swaggo/swag/cmd/swag
