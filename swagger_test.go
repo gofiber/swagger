@@ -2,6 +2,7 @@ package swagger
 
 import (
 	"net/http"
+	"sync"
 	"testing"
 
 	"github.com/gofiber/fiber/v2"
@@ -34,10 +35,16 @@ func (s *mockedSwag) ReadDoc() string {
 }`
 }
 
+var (
+	registrationOnce sync.Once
+)
+
 func Test_Swagger(t *testing.T) {
 	app := fiber.New()
 
-	swag.Register(swag.Name, &mockedSwag{})
+	registrationOnce.Do(func() {
+		swag.Register(swag.Name, &mockedSwag{})
+	})
 
 	app.Get("/swag/*", HandlerDefault)
 
@@ -115,7 +122,9 @@ func Test_Swagger(t *testing.T) {
 func Test_Swagger_Proxy_Redirect(t *testing.T) {
 	app := fiber.New()
 
-	swag.Register(swag.Name, &mockedSwag{})
+	registrationOnce.Do(func() {
+		swag.Register(swag.Name, &mockedSwag{})
+	})
 
 	// Use new handler since the prefix is created only once per handler
 	app.Get("/swag/*", New())
