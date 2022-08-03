@@ -29,7 +29,7 @@ func New(config ...Config) fiber.Handler {
 
 	index, err := template.New("swagger_index.html").Parse(indexTmpl)
 	if err != nil {
-		panic(fmt.Errorf("Fiber: swagger middleware error -> %w", err))
+		panic(fmt.Errorf("fiber: swagger middleware error -> %w", err))
 	}
 
 	var (
@@ -42,6 +42,12 @@ func New(config ...Config) fiber.Handler {
 		// Set prefix
 		once.Do(func() {
 			prefix = strings.ReplaceAll(c.Route().Path, "*", "")
+
+			forwardedPrefix := getForwardedPrefix(c)
+			if forwardedPrefix != "" {
+				prefix = forwardedPrefix + prefix
+			}
+
 			// Set doc url
 			if len(cfg.URL) == 0 {
 				cfg.URL = path.Join(prefix, defaultDocURL)
@@ -66,4 +72,30 @@ func New(config ...Config) fiber.Handler {
 			return fs(c)
 		}
 	}
+}
+
+func getForwardedPrefix(c *fiber.Ctx) string {
+	header := c.GetReqHeaders()["X-Forwarded-Prefix"]
+
+	if header == "" {
+		return ""
+	}
+
+	prefix := ""
+
+	prefixes := strings.Split(header, ",")
+	for _, rawPrefix := range prefixes {
+		endIndex := len(rawPrefix)
+		for endIndex > 1 && rawPrefix[endIndex-1] == '/' {
+			endIndex--
+		}
+
+		if endIndex != len(rawPrefix) {
+			prefix += rawPrefix[:endIndex]
+		} else {
+			prefix += rawPrefix
+		}
+	}
+
+	return prefix
 }

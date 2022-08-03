@@ -46,6 +46,7 @@ func Test_Swagger(t *testing.T) {
 		url         string
 		statusCode  int
 		contentType string
+		location    string
 	}{
 		{
 			name:        "Should be returns status 200 with 'text/html' content-type",
@@ -69,6 +70,7 @@ func Test_Swagger(t *testing.T) {
 			name:       "Should return status 301",
 			url:        "/swag/",
 			statusCode: 301,
+			location:   "/swag/index.html",
 		},
 		{
 			name:       "Should return status 404",
@@ -99,6 +101,50 @@ func Test_Swagger(t *testing.T) {
 					t.Fatalf(`Content-Type: got %s - expected %s`, ct, tt.contentType)
 				}
 			}
+
+			if tt.location != "" {
+				location := resp.Header.Get("Location")
+				if location != tt.location {
+					t.Fatalf(`Location: got %s - expected %s`, location, tt.location)
+				}
+			}
 		})
 	}
+}
+
+func Test_Swagger_Proxy_Redirect(t *testing.T) {
+	app := fiber.New()
+
+	swag.Register(swag.Name, &mockedSwag{})
+
+	// Use new handler since the prefix is created only once per handler
+	app.Get("/swag/*", New())
+
+	statusCode := 301
+	location := "/custom/path/swag/index.html"
+
+	t.Run("Should return status 301 with proxy redirect", func(t *testing.T) {
+		req, err := http.NewRequest(http.MethodGet, "/swag/", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		req.Header.Set("X-Forwarded-Prefix", "/custom/path/")
+
+		resp, err := app.Test(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if resp.StatusCode != statusCode {
+			t.Fatalf(`StatusCode: got %v - expected %v`, resp.StatusCode, statusCode)
+		}
+
+		if location != "" {
+			responseLocation := resp.Header.Get("Location")
+			if responseLocation != location {
+				t.Fatalf(`Location: got %s - expected %s`, responseLocation, location)
+			}
+		}
+	})
 }
