@@ -1,18 +1,34 @@
-on: [push, pull_request]
+on: [ push, pull_request ]
 name: Test
 jobs:
-  Build:
-    strategy:
-      matrix:
-        go-version: [1.16.x]
-        platform: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.platform }}
-    steps:
-      - name: Install Go
-        uses: actions/setup-go@v1
-        with:
-          go-version: ${{ matrix.go-version }}
-      - name: Fetch Repository
-        uses: actions/checkout@v2
-      - name: Run Test
-        run: go test -race
+    Build:
+        strategy:
+            matrix:
+                go-version: [ 1.16.x ]
+                platform: [ ubuntu-latest, windows-latest ]
+        runs-on: ${{ matrix.platform }}
+        steps:
+            -   name: Install Go
+                uses: actions/setup-go@v1
+                with:
+                    go-version: ${{ matrix.go-version }}
+            -   name: Setup Golang caches
+                uses: actions/cache@v3
+                with:
+                    # In order:
+                    # * Module download cache
+                    # * Build cache (Linux)
+                    # * Build cache (Mac)
+                    # * Build cache (Windows)
+                    path: |
+                        ~/go/pkg/mod
+                        ~/.cache/go-build
+                        ~/Library/Caches/go-build
+                        ~\AppData\Local\go-build
+                    key: ${{ runner.os }}-go-${{ matrix.go-version }}-${{ hashFiles('**/go.sum') }}
+                    restore-keys: |
+                        ${{ runner.os }}-go-${{ matrix.go-version }}-
+            -   name: Fetch Repository
+                uses: actions/checkout@v2
+            -   name: Run Test
+                run: go test ./... -v -race
