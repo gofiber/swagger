@@ -61,6 +61,7 @@ const indexTmpl string = `
         {{- end}}
       ];
       config.filter = {{.Filter.Value}}
+      config.syntaxHighlight = {{.SyntaxHighlight.Value}}
       {{if .TagsSorter}}
         config.tagsSorter = {{.TagsSorter}}
       {{end}}
