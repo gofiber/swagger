@@ -6,6 +6,10 @@ import (
 
 // Config stores SwaggerUI configuration variables
 type Config struct {
+	// This parameter can be used to name different swagger document instances.
+	// default: ""
+	InstanceName string `json:"-"`
+
 	// Title pointing to title of HTML page.
 	// default: "Swagger UI"
 	Title string `json:"-"`
