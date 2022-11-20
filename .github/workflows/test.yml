@@ -14,7 +14,7 @@ jobs:
         runs-on: ${{ matrix.platform }}
         steps:
             -   name: Install Go
-                uses: actions/setup-go@v1
+                uses: actions/setup-go@v3
                 with:
                     go-version: ${{ matrix.go-version }}
             -   name: Setup Golang caches
@@ -34,6 +34,6 @@ jobs:
                     restore-keys: |
                         ${{ runner.os }}-go-${{ matrix.go-version }}-
             -   name: Fetch Repository
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3.1.0
             -   name: Run Test
                 run: go test ./... -v -race
