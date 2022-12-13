@@ -39,6 +39,6 @@ jobs:
                   restore-keys: |
                       ${{ runner.os }}-go-${{ matrix.go-version }}-
             -   name: Fetch Repository
-                uses: actions/checkout@v3.1.0
+                uses: actions/checkout@v3.2.0
             -   name: Run Test
                 run: go test ./... -v -race

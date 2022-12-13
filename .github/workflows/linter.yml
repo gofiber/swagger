@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch Repository
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v3.2.0
       - name: Run Golint
         uses: reviewdog/action-golangci-lint@v2
         with:
