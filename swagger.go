@@ -3,6 +3,7 @@ package swagger
 import (
 	"fmt"
 	"html/template"
+	"net/http"
 	"path"
 	"strings"
 	"sync"
@@ -10,7 +11,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
 	"github.com/gofiber/fiber/v2/utils"
-	swaggerFiles "github.com/swaggo/files"
+	swaggerFiles "github.com/swaggo/files/v2"
 	"github.com/swaggo/swag"
 )
 
@@ -19,9 +20,7 @@ const (
 	defaultIndex  = "index.html"
 )
 
-var (
-	HandlerDefault = New()
-)
+var HandlerDefault = New()
 
 // New returns custom handler
 func New(config ...Config) fiber.Handler {
@@ -35,34 +34,36 @@ func New(config ...Config) fiber.Handler {
 	var (
 		prefix string
 		once   sync.Once
-		fs     fiber.Handler = filesystem.New(filesystem.Config{Root: swaggerFiles.HTTP})
+		fs     = filesystem.New(filesystem.Config{Root: http.FS(swaggerFiles.FS)})
 	)
 
 	return func(c *fiber.Ctx) error {
 		// Set prefix
-		once.Do(func() {
-			prefix = strings.ReplaceAll(c.Route().Path, "*", "")
+		once.Do(
+			func() {
+				prefix = strings.ReplaceAll(c.Route().Path, "*", "")
 
-			forwardedPrefix := getForwardedPrefix(c)
-			if forwardedPrefix != "" {
-				prefix = forwardedPrefix + prefix
-			}
+				forwardedPrefix := getForwardedPrefix(c)
+				if forwardedPrefix != "" {
+					prefix = forwardedPrefix + prefix
+				}
 
-			// Set doc url
-			if len(cfg.URL) == 0 {
-				cfg.URL = path.Join(prefix, defaultDocURL)
-			}
-		})
+				// Set doc url
+				if len(cfg.URL) == 0 {
+					cfg.URL = path.Join(prefix, defaultDocURL)
+				}
+			},
+		)
 
-		p := c.Path(utils.ImmutableString(c.Params("*")))
+		p := c.Path(utils.CopyString(c.Params("*")))
 
 		switch p {
 		case defaultIndex:
 			c.Type("html")
 			return index.Execute(c, cfg)
 		case defaultDocURL:
-			doc, err := swag.ReadDoc(cfg.InstanceName)
-			if err != nil {
+			var doc string
+			if doc, err = swag.ReadDoc(cfg.InstanceName); err != nil {
 				return err
 			}
 			return c.Type("json").SendString(doc)
