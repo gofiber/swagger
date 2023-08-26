@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/swaggo/swag"
+	"github.com/swaggo/swag/v2"
 )
 
 type mockedSwag struct{}
