@@ -78,14 +78,13 @@ func New(config ...Config) fiber.Handler {
 func getForwardedPrefix(c *fiber.Ctx) string {
 	header := c.GetReqHeaders()["X-Forwarded-Prefix"]
 
-	if header == "" {
+	if len(header) == 0 {
 		return ""
 	}
 
 	prefix := ""
 
-	prefixes := strings.Split(header, ",")
-	for _, rawPrefix := range prefixes {
+	for _, rawPrefix := range header {
 		endIndex := len(rawPrefix)
 		for endIndex > 1 && rawPrefix[endIndex-1] == '/' {
 			endIndex--
