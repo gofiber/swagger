@@ -2,7 +2,7 @@
 
 ![Release](https://img.shields.io/github/release/gofiber/swagger.svg)
 [![Discord](https://img.shields.io/badge/discord-join%20channel-7289DA)](https://gofiber.io/discord)
-![Test](https://github.com/gofiber/swagger/workflows/Test/badge.svg)
+![Tests](https://github.com/gofiber/swagger/actions/workflows/test.yml/badge.svg)
 ![Security](https://github.com/gofiber/swagger/workflows/Security/badge.svg)
 ![Linter](https://github.com/gofiber/swagger/workflows/Linter/badge.svg)
 
