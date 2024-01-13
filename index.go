@@ -94,6 +94,7 @@ const indexTmpl string = `
       {{end}}
 
       window.ui = ui
+      document.getElementsByTagName("body")[0].style="margin:0;padding:0" 
     }
     </script>
   </body>
