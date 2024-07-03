@@ -4,7 +4,6 @@ go 1.18
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.5
-	github.com/swaggo/files/v2 v2.0.0
 	github.com/swaggo/swag v1.16.3
 )
 
