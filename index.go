@@ -13,6 +13,7 @@ const indexTmpl string = `
     <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
     {{- if .CustomStyle}}
     <style>
+      body { margin: 0; }
       {{.CustomStyle}}
     </style>
     {{- end}}
