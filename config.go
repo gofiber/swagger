@@ -179,6 +179,10 @@ type Config struct {
 	// Applies custom CSS styles.
 	// default: ""
 	CustomStyle template.CSS `json:"-"`
+
+	// Applies custom JavaScript scripts.
+	// default ""
+	CustomScript template.JS `json:"-"`
 }
 
 type FilterConfig struct {
