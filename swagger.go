@@ -68,7 +68,7 @@ func New(config ...Config) fiber.Handler {
 		case "", "/":
 			return c.Redirect().Status(fiber.StatusMovedPermanently).To(path.Join(prefix, defaultIndex))
 		default:
-			return static.New("", static.Config{
+			return static.New("/", static.Config{
 				FS:     swaggerFiles.FS,
 				Browse: true,
 			})(c)
