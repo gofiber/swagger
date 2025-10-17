@@ -8,9 +8,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/filesystem"
-	"github.com/gofiber/fiber/v2/utils"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/filesystem"
+	"github.com/gofiber/fiber/v3/utils"
 	swaggerFiles "github.com/swaggo/files/v2"
 	"github.com/swaggo/swag"
 )
