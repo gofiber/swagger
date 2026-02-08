@@ -1,3 +1,4 @@
+// Deprecated: This middleware is no longer maintained. Use github.com/gofiber/contrib/v3/swaggo.
 module github.com/gofiber/swagger/v2
 
 go 1.25.0
